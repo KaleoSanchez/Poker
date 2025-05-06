@@ -21,4 +21,4 @@ jobs:
       - name: pull
         run: |
           docker login -u kaleosanchez -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker pull kaleosanchez/final_project:latest
+          docker pull kaleosanchez/final_project:latest 
