@@ -1,5 +1,6 @@
 import unittest
 import Poker
+from unittest.mock import patch
 
 class TestPokerGame(unittest.TestCase):
     def test_HandRank(self):
@@ -81,6 +82,58 @@ class TestPokerGame(unittest.TestCase):
     def test_ShowHand(self):
         Hand = [1,2,3,4,5]
         self.assertEqual(Poker.ShowHand(Hand),None)
+
+    def test_deck(self):
+        cards = Poker.deck()
+        self.assertEqual(len(cards), 52)
+        self.assertEqual(len(set(cards)), 52)
+        self.assertTrue(all(isinstance(card, int) for card in cards))
     
+    def test_ValidBet_zero(self):
+        self.assertTrue(Poker.ValidBet(100, 0))
+
+    @patch('builtins.print')
+    def test_CardName_allSuits(self, mock_print):
+        for card in [0, 13, 26, 39]:
+            Poker.CardName(card)
+        self.assertGreaterEqual(mock_print.call_count, 4)
+    
+    def test_GetCardValue_Two(self):
+        self.assertEqual(Poker.GetCardValue(2), "2")
+    
+    def test_ValidBet_ExactlyPlayerMoney(self):
+        self.assertTrue(Poker.ValidBet(100,100))
+
+    def test_deck_card_range(self):
+        deck = Poker.deck()
+        self.assertTrue(all(0 <= card < 52 for card in deck))
+    
+    def test_ValidBet_negative(self):
+        self.assertTrue(Poker.ValidBet(100, -5))
+    
+    @patch('builtins.print')
+    def test_CardName_print(self, mock_print):
+        Poker.CardName(0)
+        mock_print.assert_called()
+    
+    @patch('builtins.print')
+    def test_ShowHand_print(self, mock_print):
+        Poker.ShowHand([0, 13, 26])
+        self.assertGreaterEqual(mock_print.call_count, 3)
+
+    @patch('builtins.print')
+    def test_GameResult_prints_and_money_update(self, mock_print):
+        dealer, player = Poker.GameResult(1, 150, 50, 25)
+        self.assertEqual((dealer, player), (25, 175))
+        mock_print.assert_called_with('\nPlayer Wins!, You win', 25, 'dollars!')
+
+    @patch('builtins.print')
+    def test_GameResult_tie_print(self, mock_print):
+        dealer, player = Poker.GameResult(3, 100, 100, 25)
+        self.assertEqual((dealer, player), (100, 100))
+        mock_print.assert_called_with('\nTie, All parties push')
+
+
+
 if __name__ == "__main__":
     unittest.main()

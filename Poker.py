@@ -124,7 +124,7 @@ def CardName(card):
 def GetCardValue(value):
     if value == 1:
         return "Deuce"
-    elif 2 < value <= 10:
+    elif 2 <= value <= 10:
         return str(value)
     elif value == 11:
         return "Jack"
