@@ -1,7 +1,10 @@
 name: Publish image to Docker Hub
 on: 
-  [workflow_dispatch]
-
+  push: 
+    branches: [main]
+  pull_request:
+    branches: [main]
+    
 jobs:
   publish_image:
     runs-on: ubuntu-latest
@@ -13,4 +16,9 @@ jobs:
           docker build . -t kaleosanchez/final_project:latest
       - name: publish
         run: |
+          docker login -u kaleosanchez -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push kaleosanchez/final_project:latest
+      - name: pull
+        run: |
+          docker login -u kaleosanchez -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker pull kaleosanchez/final_project:latest
