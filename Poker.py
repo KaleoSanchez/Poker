@@ -10,7 +10,7 @@ def main():
     while again == 'y':
         Deck = deck()
         DeckPosition = 0
-        print("Welcome to Nevada Poker!, I'll shuffle the deck!\n")
+        print("Welcome to University of Nevada, Reno Poker!, I'll shuffle the deck!\n")
         random.shuffle(Deck)
         time.sleep(1)
         print("Deck has been shuffled, here is your hand!\n")

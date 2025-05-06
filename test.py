@@ -133,7 +133,5 @@ class TestPokerGame(unittest.TestCase):
         self.assertEqual((dealer, player), (100, 100))
         mock_print.assert_called_with('\nTie, All parties push')
 
-
-
 if __name__ == "__main__":
     unittest.main()
